@@ -17,7 +17,8 @@
 	<properties>
 		<java.version>11</java.version>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-		<io.springfox.swagger2.version>3.0.0</io.springfox.swagger2.version>
+		<org.projectlombok.version>1.18.20</org.projectlombok.version>
+		<io.springfox.swagger.version>3.0.0</io.springfox.swagger.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -31,17 +32,18 @@
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${io.springfox.swagger2.version}</version>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>${io.springfox.swagger.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${io.springfox.swagger2.version}</version>
+			<version>${io.springfox.swagger.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>${org.projectlombok.version}</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -63,13 +65,17 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+					<release>${java.version}</release>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
 							<version>${org.mapstruct.version}</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${org.projectlombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
