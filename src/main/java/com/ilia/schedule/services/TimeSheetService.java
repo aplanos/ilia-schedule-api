@@ -1,7 +1,8 @@
 package com.ilia.schedule.services;
 
-import java.util.Date;
+import com.ilia.schedule.api.models.TimeSheetCreateModel;
+import com.ilia.schedule.repositories.models.TimeSheet;
 
 public interface TimeSheetService {
-    void saveCheckedDateTime(Date checkedDateTime);
+    TimeSheet saveCheckedDateTime(TimeSheetCreateModel timeSheetCreateModel);
 }

@@ -1,5 +1,6 @@
 package com.ilia.schedule.repositories.models;
 
+import com.ilia.schedule.repositories.enums.TimeSheetEntryType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -17,12 +18,24 @@ public class TimeSheet {
     @GeneratedValue
     private Long id;
 
-    private Date checkedDateTime;
-    private Date createdDateTime;
-    private Date updatedDateTime;
+    private TimeSheetEntryType type;
+
+    private LocalDateTime checkedDateTime;
+    private LocalDateTime createdDateTime;
+    private LocalDateTime updatedDateTime;
 
     private Integer createdBy;
     private Integer updatedBy;
+
+    public TimeSheet(LocalDateTime checkedDateTime) {
+
+        var now = LocalDateTime.now();
+
+        this.checkedDateTime = checkedDateTime;
+        this.createdDateTime = now;
+        this.updatedDateTime = now;
+    }
+
 
     public Long getId() {
         return id;
@@ -32,27 +45,35 @@ public class TimeSheet {
         this.id = id;
     }
 
-    public Date getCheckedDateTime() {
+    public TimeSheetEntryType getType() {
+        return type;
+    }
+
+    public void setType(TimeSheetEntryType type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getCheckedDateTime() {
         return checkedDateTime;
     }
 
-    public void setCheckedDateTime(Date checkedDateTime) {
+    public void setCheckedDateTime(LocalDateTime checkedDateTime) {
         this.checkedDateTime = checkedDateTime;
     }
 
-    public Date getCreatedDateTime() {
+    public LocalDateTime getCreatedDateTime() {
         return createdDateTime;
     }
 
-    public void setCreatedDateTime(Date createdDateTime) {
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
         this.createdDateTime = createdDateTime;
     }
 
-    public Date getUpdatedDateTime() {
+    public LocalDateTime getUpdatedDateTime() {
         return updatedDateTime;
     }
 
-    public void setUpdatedDateTime(Date updatedDateTime) {
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
         this.updatedDateTime = updatedDateTime;
     }
 

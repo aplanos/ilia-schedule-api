@@ -1,7 +1,7 @@
 package com.ilia.schedule.api;
 
 import com.ilia.schedule.api.models.ApiResponseModel;
-import com.ilia.schedule.api.models.TimesheetCreateModel;
+import com.ilia.schedule.api.models.TimeSheetCreateModel;
 import com.ilia.schedule.services.TimeSheetService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -9,16 +9,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
 @RestController
 @Api(value = "Bate Ponto")
 @RequestMapping("/api/batidas")
-public class TimesheetController {
+public class TimeSheetController {
 
     final TimeSheetService timeSheetService;
 
-    public TimesheetController(TimeSheetService timeSheetService) {
+    public TimeSheetController(TimeSheetService timeSheetService) {
         this.timeSheetService = timeSheetService;
     }
 
@@ -33,10 +31,9 @@ public class TimesheetController {
     })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity<ApiResponseModel> insert(
-            @RequestBody TimesheetCreateModel timesheetCreateModel) {
+            @RequestBody TimeSheetCreateModel timesheetCreateModel) {
 
-
-        timeSheetService.saveCheckedDateTime(timesheetCreateModel.getCheckedDatetime());
+        timeSheetService.saveCheckedDateTime(timesheetCreateModel);
 
         return ResponseEntity
                 .status(201)
