@@ -1,6 +1,5 @@
 package com.ilia.schedule;
 
-import com.ilia.schedule.api.models.TimeSheetCreateModel;
 import com.ilia.schedule.repositories.TimeSheetRepository;
 import com.ilia.schedule.repositories.enums.TimeSheetEntryType;
 import com.ilia.schedule.repositories.models.TimeSheet;
@@ -38,6 +37,11 @@ public class TimeSheetServiceTests {
 
     private final TimeSheetDto saturdayCheckpoint = new TimeSheetDto(LocalDateTime.parse("2021-09-04T08:00:00"));
     private final TimeSheetDto sundayCheckpoint = new TimeSheetDto(LocalDateTime.parse("2021-09-05T08:00:00"));
+
+    @AfterEach
+    void teardown() {
+        timeSheetRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("When save timesheet checked date cannot be null")
@@ -144,10 +148,5 @@ public class TimeSheetServiceTests {
         );
 
         assertNotNull(exception);
-    }
-
-    @AfterEach
-    void teardown() {
-        timeSheetRepository.deleteAll();
     }
 }
