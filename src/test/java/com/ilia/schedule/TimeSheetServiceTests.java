@@ -7,6 +7,7 @@ import com.ilia.schedule.repositories.models.TimeSheet;
 import com.ilia.schedule.services.TimeSheetServiceImpl;
 import com.ilia.schedule.services.dto.TimeSheetDto;
 import com.ilia.schedule.services.exceptions.CheckedTimeExistException;
+import com.ilia.schedule.services.exceptions.CheckedTimeInvalidException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,7 +42,7 @@ public class TimeSheetServiceTests {
     @Test
     @DisplayName("When save timesheet checked date cannot be null")
     public void when_save_timesheet_checked_date_cant_be_null() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+        Exception exception = assertThrows(CheckedTimeInvalidException.class, () ->
                 timeSheetService.saveCheckedDateTime(new TimeSheetDto())
         );
 
