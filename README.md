@@ -41,7 +41,7 @@ Caso tenha rodado o projeto usando a linha de comando encontrará disponível:
 - Swagger UI (http://localhost:8080/swagger-ui/)
 - Spring Boot Admin (http://localhost:8080/applications)
 
-Caso tenha utilizado o docker compose, as urls são as mesmas, só precisa mudar a porta para **`5000`**
+Caso tenha utilizado o **`docker`** compose, as urls são as mesmas, só precisa mudar a porta para **`5000`**
 
 ## Branches
 
