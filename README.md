@@ -42,3 +42,10 @@ Caso tenha rodado o projeto usando a linha de comando encontrará disponível:
 - Spring Boot Admin (http://localhost:8080/applications)
 
 Caso tenha utilizado o docker compose, as urls são as mesmas, só precisa mudar a porta para **`5000`**
+
+## Sobre os branches
+
+Tem dois branches
+
+- master (default - estável)
+- staging (desenvolvimento)
