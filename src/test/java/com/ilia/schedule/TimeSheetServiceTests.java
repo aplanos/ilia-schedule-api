@@ -6,6 +6,7 @@ import com.ilia.schedule.repositories.enums.TimeSheetEntryType;
 import com.ilia.schedule.repositories.models.TimeSheet;
 import com.ilia.schedule.services.TimeSheetServiceImpl;
 import com.ilia.schedule.services.dto.TimeSheetDto;
+import com.ilia.schedule.services.exceptions.CheckedTimeExistException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -95,6 +96,20 @@ public class TimeSheetServiceTests {
 
         assertNotNull(saturdayException);
         assertNotNull(sundayException);
+    }
+
+    @Test
+    @DisplayName("Cannot repeat same checked time")
+    public void cannot_repeat_same_checked_time() {
+
+        given(timeSheetRepository.findFirstByCheckedDateTime(any(LocalDateTime.class)))
+                .willAnswer(invocation -> Optional.of(new TimeSheet()));
+
+        Exception repeatedException = assertThrows(CheckedTimeExistException.class, () ->
+                timeSheetService.saveCheckedDateTime(startCheckPoint)
+        );
+
+        assertNotNull(repeatedException);
     }
 
     @Test

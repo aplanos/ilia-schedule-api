@@ -17,4 +17,5 @@ public interface TimeSheetRepository extends CrudRepository<TimeSheet, Long> {
     );
 
     Optional<TimeSheet> findFirstByCheckedDateTimeBetweenOrderByCreatedDateTimeDesc(LocalDateTime startDatetime, LocalDateTime endDatetime);
+    Optional<TimeSheet> findFirstByCheckedDateTime(LocalDateTime startDatetime);
 }
