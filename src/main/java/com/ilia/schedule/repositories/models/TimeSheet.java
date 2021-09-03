@@ -27,15 +27,13 @@ public class TimeSheet {
     private Integer createdBy;
     private Integer updatedBy;
 
-    {
+    public TimeSheet(LocalDateTime checkedDateTime) {
+        this.checkedDateTime = checkedDateTime;
+
         var now = LocalDateTime.now();
 
         this.createdDateTime = now;
         this.updatedDateTime = now;
-    }
-
-    public TimeSheet(LocalDateTime checkedDateTime) {
-        this.checkedDateTime = checkedDateTime;
     }
 
     public Long getId() {
