@@ -42,9 +42,7 @@ public class TimeSheetController {
 
             timeSheetService.saveCheckedDateTime(timeSheetDto);
 
-            return ResponseEntity
-                    .status(201)
-                    .body(new ApiResponseModel(timesheetCreateModel.getCheckedDateTime().toString()));
+            return ResponseEntity.status(201).build();
 
         } catch (IllegalArgumentException ex) {
             return ResponseEntity
