@@ -3,7 +3,9 @@ package com.ilia.schedule.api;
 import com.ilia.schedule.api.mappers.ApiModelMapper;
 import com.ilia.schedule.api.models.ApiResponseModel;
 import com.ilia.schedule.api.models.TimeSheetCreateModel;
+import com.ilia.schedule.services.exceptions.CheckedTimeExistException;
 import com.ilia.schedule.services.TimeSheetService;
+import com.ilia.schedule.services.exceptions.CheckedTimeInvalidException;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,13 +36,28 @@ public class TimeSheetController {
     public ResponseEntity<ApiResponseModel> insert(
             @RequestBody TimeSheetCreateModel timesheetCreateModel) {
 
-        var timeSheetDto = ApiModelMapper.INSTANCE
-                .timeSheetCreateModelToTimeSheetDto(timesheetCreateModel);
+        try {
+            var timeSheetDto = ApiModelMapper.INSTANCE
+                    .timeSheetCreateModelToTimeSheetDto(timesheetCreateModel);
 
-        timeSheetService.saveCheckedDateTime(timeSheetDto);
+            timeSheetService.saveCheckedDateTime(timeSheetDto);
 
-        return ResponseEntity
-                .status(201)
-                .body(new ApiResponseModel(timesheetCreateModel.getCheckedDateTime().toString()));
+            return ResponseEntity
+                    .status(201)
+                    .body(new ApiResponseModel(timesheetCreateModel.getCheckedDateTime().toString()));
+
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(new ApiResponseModel(ex.getLocalizedMessage()));
+        } catch (CheckedTimeInvalidException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponseModel(ex.getLocalizedMessage()));
+        } catch (CheckedTimeExistException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(new ApiResponseModel(ex.getLocalizedMessage()));
+        }
     }
 }
