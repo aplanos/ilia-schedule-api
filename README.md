@@ -43,9 +43,24 @@ Caso tenha rodado o projeto usando a linha de comando encontrará disponível:
 
 Caso tenha utilizado o docker compose, as urls são as mesmas, só precisa mudar a porta para **`5000`**
 
-## Sobre os branches
+## Branches
 
 Tem dois branches
 
 - master (default - estável)
 - staging (desenvolvimento)
+
+## Testes
+
+Foram feitos teste de integração, de repositório e de unidade. Para validiar a cobertura de teste foi adicionado o plugin JaCoCo, é possível gerar o relatório de cobertura executando:
+
+```console
+
+./mvnw clean
+./mvnw jacoco:report
+
+```
+
+Após a geração do relatório de cobertura de teste, é possível visualizar ele no caminho:
+
+`\target\site\jacoco\index.html`
