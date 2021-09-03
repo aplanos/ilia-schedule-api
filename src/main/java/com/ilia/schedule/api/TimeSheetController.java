@@ -1,5 +1,6 @@
 package com.ilia.schedule.api;
 
+import com.ilia.schedule.api.mappers.ApiModelMapper;
 import com.ilia.schedule.api.models.ApiResponseModel;
 import com.ilia.schedule.api.models.TimeSheetCreateModel;
 import com.ilia.schedule.services.TimeSheetService;
@@ -33,10 +34,13 @@ public class TimeSheetController {
     public ResponseEntity<ApiResponseModel> insert(
             @RequestBody TimeSheetCreateModel timesheetCreateModel) {
 
-        timeSheetService.saveCheckedDateTime(timesheetCreateModel);
+        var timeSheetDto = ApiModelMapper.INSTANCE
+                .timeSheetCreateModelToTimeSheetDto(timesheetCreateModel);
+
+        timeSheetService.saveCheckedDateTime(timeSheetDto);
 
         return ResponseEntity
                 .status(201)
-                .body(new ApiResponseModel(timesheetCreateModel.getCheckedDatetime().toString()));
+                .body(new ApiResponseModel(timesheetCreateModel.getCheckedDateTime().toString()));
     }
 }

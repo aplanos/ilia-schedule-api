@@ -1,4 +1,4 @@
-package com.ilia.schedule.repositories.models;
+package com.ilia.schedule.services.dto;
 
 import com.ilia.schedule.repositories.enums.TimeSheetEntryType;
 import lombok.AllArgsConstructor;
@@ -10,31 +10,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class TimeSheet {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class TimeSheetDto {
 
-    private TimeSheetEntryType type;
+    Long id;
+    TimeSheetEntryType type;
 
-    private LocalDateTime checkedDateTime;
-    private LocalDateTime createdDateTime;
-    private LocalDateTime updatedDateTime;
+    LocalDateTime checkedDateTime;
+    LocalDateTime createdDateTime;
+    LocalDateTime updatedDateTime;
 
-    private Integer createdBy;
-    private Integer updatedBy;
+    Integer createdBy;
+    Integer updatedBy;
 
-    {
-        var now = LocalDateTime.now();
-
-        this.createdDateTime = now;
-        this.updatedDateTime = now;
-    }
-
-    public TimeSheet(LocalDateTime checkedDateTime) {
+    public TimeSheetDto(LocalDateTime checkedDateTime) {
         this.checkedDateTime = checkedDateTime;
     }
 

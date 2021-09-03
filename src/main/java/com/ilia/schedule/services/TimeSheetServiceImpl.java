@@ -4,6 +4,8 @@ import com.ilia.schedule.api.models.TimeSheetCreateModel;
 import com.ilia.schedule.repositories.TimeSheetRepository;
 import com.ilia.schedule.repositories.enums.TimeSheetEntryType;
 import com.ilia.schedule.repositories.models.TimeSheet;
+import com.ilia.schedule.services.dto.TimeSheetDto;
+import com.ilia.schedule.services.mappers.TimeSheetMapper;
 import com.ilia.schedule.utils.DateHelper;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +24,11 @@ public class TimeSheetServiceImpl implements TimeSheetService {
     }
 
     @Override
-    public TimeSheet saveCheckedDateTime(TimeSheetCreateModel timeSheetCreateModel) {
+    public TimeSheetDto saveCheckedDateTime(TimeSheetDto timeSheetDto) {
 
-        var checkedDateTime = timeSheetCreateModel.getCheckedDatetime();
+        var timesheet = TimeSheetMapper.INSTANCE.timeSheetDtoToTimeSheet(timeSheetDto);
+
+        var checkedDateTime = timesheet.getCheckedDateTime();
 
         if (checkedDateTime == null) {
             throw new IllegalArgumentException("[CheckedDateTime] in [TimeSheetCreateModel] cannot be null.");
@@ -59,12 +63,10 @@ public class TimeSheetServiceImpl implements TimeSheetService {
             }
         }
 
-        var instance = new TimeSheet(checkedDateTime);
-        instance.setType(TimeSheetEntryType.fromValue(dayTimeSheetCount));
+        timesheet.setType(TimeSheetEntryType.fromValue(dayTimeSheetCount));
+        timeSheetRepository.save(timesheet);
 
-        timeSheetRepository.save(instance);
-
-        return instance;
+        return TimeSheetMapper.INSTANCE.timeSheetToTimeSheetDto(timesheet);
     }
 
     private Integer countTimeSheetEntriesInDay(LocalDateTime checkedDateTime) {

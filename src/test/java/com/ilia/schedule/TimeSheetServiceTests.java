@@ -5,6 +5,7 @@ import com.ilia.schedule.repositories.TimeSheetRepository;
 import com.ilia.schedule.repositories.enums.TimeSheetEntryType;
 import com.ilia.schedule.repositories.models.TimeSheet;
 import com.ilia.schedule.services.TimeSheetServiceImpl;
+import com.ilia.schedule.services.dto.TimeSheetDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,20 +28,18 @@ public class TimeSheetServiceTests {
     @InjectMocks
     private TimeSheetServiceImpl timeSheetService;
 
-    private final String checkedTime = "2021-09-02T08:00:00";
+    private final TimeSheetDto startCheckPoint = new TimeSheetDto(LocalDateTime.parse("2021-09-02T08:00:00"));
+    private final TimeSheetDto pauseCheckPoint = new TimeSheetDto(LocalDateTime.parse("2021-09-02T12:01:00"));
+    private final TimeSheetDto resumeCheckPoint = new TimeSheetDto(LocalDateTime.parse("2021-09-02T13:00:00"));
+    private final TimeSheetDto endCheckPoint = new TimeSheetDto(LocalDateTime.parse("2021-09-02T17:00:00"));
 
-    private final TimeSheetCreateModel startCheckPoint = new TimeSheetCreateModel(LocalDateTime.parse("2021-09-02T08:00:00"));
-    private final TimeSheetCreateModel pauseCheckPoint = new TimeSheetCreateModel(LocalDateTime.parse("2021-09-02T12:01:00"));
-    private final TimeSheetCreateModel resumeCheckPoint = new TimeSheetCreateModel(LocalDateTime.parse("2021-09-02T13:00:00"));
-    private final TimeSheetCreateModel endCheckPoint = new TimeSheetCreateModel(LocalDateTime.parse("2021-09-02T17:00:00"));
-
-    private final TimeSheetCreateModel saturdayCheckpoint = new TimeSheetCreateModel(LocalDateTime.parse("2021-09-04T08:00:00"));
-    private final TimeSheetCreateModel sundayCheckpoint = new TimeSheetCreateModel(LocalDateTime.parse("2021-09-05T08:00:00"));
+    private final TimeSheetDto saturdayCheckpoint = new TimeSheetDto(LocalDateTime.parse("2021-09-04T08:00:00"));
+    private final TimeSheetDto sundayCheckpoint = new TimeSheetDto(LocalDateTime.parse("2021-09-05T08:00:00"));
 
     @Test
     public void when_save_timesheet_checked_date_cant_be_null() {
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                timeSheetService.saveCheckedDateTime(new TimeSheetCreateModel())
+                timeSheetService.saveCheckedDateTime(new TimeSheetDto())
         );
 
         assertNotNull(exception);
@@ -65,7 +64,7 @@ public class TimeSheetServiceTests {
         given(timeSheetRepository.findFirstByCheckedDateTimeBetweenOrderByCreatedDateTimeDesc(any(LocalDateTime.class), any(LocalDateTime.class)))
                 .willAnswer(invocation -> {
                     var timesheet = new TimeSheet();
-                    timesheet.setCheckedDateTime(pauseCheckPoint.getCheckedDatetime());
+                    timesheet.setCheckedDateTime(pauseCheckPoint.getCheckedDateTime());
                     timesheet.setType(TimeSheetEntryType.PAUSE);
 
                     return timesheet;
@@ -99,9 +98,9 @@ public class TimeSheetServiceTests {
         given(timeSheetRepository.save(any(TimeSheet.class)))
                 .willAnswer(invocation -> invocation.getArgument(0));
 
-        TimeSheet created = timeSheetService.saveCheckedDateTime(startCheckPoint);
+        TimeSheetDto created = timeSheetService.saveCheckedDateTime(startCheckPoint);
 
-        assertThat(created.getCheckedDateTime()).isEqualTo(startCheckPoint.getCheckedDatetime());
+        assertThat(created.getCheckedDateTime()).isEqualTo(startCheckPoint.getCheckedDateTime());
     }
 
     @Test
@@ -111,7 +110,7 @@ public class TimeSheetServiceTests {
                 any(LocalDateTime.class), any(LocalDateTime.class)))
                 .willAnswer(invocation -> {
                     var timesheet = new TimeSheet();
-                    timesheet.setCheckedDateTime(resumeCheckPoint.getCheckedDatetime());
+                    timesheet.setCheckedDateTime(resumeCheckPoint.getCheckedDateTime());
                     timesheet.setType(TimeSheetEntryType.RESUME);
 
                     return timesheet;
