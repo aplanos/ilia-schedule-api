@@ -82,7 +82,9 @@
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
-
+	<scm>
+		<developerConnection>scm:git:https://github.com/aplanos/ilia-schedule-api</developerConnection>
+	</scm>
 	<build>
 		<plugins>
 			<!--plugin>
