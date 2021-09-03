@@ -1,8 +1,8 @@
 package com.ilia.schedule.api;
 
 import com.ilia.schedule.api.mappers.ApiModelMapper;
-import com.ilia.schedule.api.models.ApiResponseModel;
-import com.ilia.schedule.api.models.TimeSheetCreateModel;
+import com.ilia.schedule.api.resources.ApiResponseModel;
+import com.ilia.schedule.api.resources.TimeSheetCreateModel;
 import com.ilia.schedule.services.exceptions.CheckedTimeExistException;
 import com.ilia.schedule.services.TimeSheetService;
 import com.ilia.schedule.services.exceptions.CheckedTimeInvalidException;

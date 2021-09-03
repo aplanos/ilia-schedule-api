@@ -1,7 +1,7 @@
 package com.ilia.schedule.api.mappers;
 
-import com.ilia.schedule.api.models.TimeSheetCreateModel;
-import com.ilia.schedule.api.models.ApiResponseModel;
+import com.ilia.schedule.api.resources.TimeSheetCreateModel;
+import com.ilia.schedule.api.resources.ApiResponseModel;
 import com.ilia.schedule.services.dto.TimeSheetDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
