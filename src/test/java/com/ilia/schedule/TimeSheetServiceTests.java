@@ -6,7 +6,7 @@ import com.ilia.schedule.repositories.enums.TimeSheetEntryType;
 import com.ilia.schedule.repositories.models.TimeSheet;
 import com.ilia.schedule.services.TimeSheetServiceImpl;
 import com.ilia.schedule.services.dto.TimeSheetDto;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,6 +38,7 @@ public class TimeSheetServiceTests {
     private final TimeSheetDto sundayCheckpoint = new TimeSheetDto(LocalDateTime.parse("2021-09-05T08:00:00"));
 
     @Test
+    @DisplayName("When save timesheet checked date cannot be null")
     public void when_save_timesheet_checked_date_cant_be_null() {
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
                 timeSheetService.saveCheckedDateTime(new TimeSheetDto())
@@ -47,6 +48,7 @@ public class TimeSheetServiceTests {
     }
 
     @Test
+    @DisplayName("Save only four timesheet by day")
     public void save_only_four_timesheet_by_day() {
 
         given(timeSheetRepository.countTimeSheetsBetweenDates(any(LocalDateTime.class), any(LocalDateTime.class)))
@@ -60,6 +62,7 @@ public class TimeSheetServiceTests {
     }
 
     @Test
+    @DisplayName("Should have one hour of lunch")
     public void should_have_one_hour_of_lunch() {
 
         given(timeSheetRepository.findFirstByCheckedDateTimeBetweenOrderByCreatedDateTimeDesc(any(LocalDateTime.class), any(LocalDateTime.class)))
@@ -79,6 +82,7 @@ public class TimeSheetServiceTests {
     }
 
     @Test
+    @DisplayName("Cannot check time in weekends")
     public void cannot_check_time_in_weekends() {
 
         Exception saturdayException = assertThrows(IllegalArgumentException.class, () ->
@@ -94,6 +98,7 @@ public class TimeSheetServiceTests {
     }
 
     @Test
+    @DisplayName("When save timesheet it should return timesheet")
     public void when_save_timesheet_it_should_return_timesheet() {
 
         given(timeSheetRepository.save(any(TimeSheet.class)))
@@ -105,6 +110,7 @@ public class TimeSheetServiceTests {
     }
 
     @Test
+    @DisplayName("Cannot check time minor than the previous one in day")
     public void cannot_check_time_minor_than_the_previous_one_in_day() {
 
         given(timeSheetRepository.findFirstByCheckedDateTimeBetweenOrderByCreatedDateTimeDesc(
@@ -122,5 +128,10 @@ public class TimeSheetServiceTests {
         );
 
         assertNotNull(exception);
+    }
+
+    @AfterEach
+    void teardown() {
+        timeSheetRepository.deleteAll();
     }
 }

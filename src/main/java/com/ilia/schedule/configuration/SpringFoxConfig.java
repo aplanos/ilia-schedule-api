@@ -22,7 +22,7 @@ public class SpringFoxConfig {
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(
-                        ant("/api/**/v1")
+                        ant("/api/v1/**")
                 )
                 .paths(PathSelectors.any())
                 .build()

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(value = "Bate Ponto")
-@RequestMapping("/api/batidas")
+@RequestMapping("/api/v1/batidas")
 public class TimeSheetController {
 
     final TimeSheetService timeSheetService;
@@ -21,7 +21,7 @@ public class TimeSheetController {
         this.timeSheetService = timeSheetService;
     }
 
-    @PostMapping(value = {"/v1"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Bater ponto",
             notes = "Registrar um horário da jornada diária de trabalho")
     @ApiResponses(value = {
