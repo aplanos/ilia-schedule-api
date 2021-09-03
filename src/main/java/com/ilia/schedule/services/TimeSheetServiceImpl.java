@@ -1,9 +1,7 @@
 package com.ilia.schedule.services;
 
-import com.ilia.schedule.api.models.TimeSheetCreateModel;
 import com.ilia.schedule.repositories.TimeSheetRepository;
 import com.ilia.schedule.repositories.enums.TimeSheetEntryType;
-import com.ilia.schedule.repositories.models.TimeSheet;
 import com.ilia.schedule.services.dto.TimeSheetDto;
 import com.ilia.schedule.services.mappers.TimeSheetMapper;
 import com.ilia.schedule.utils.DateHelper;
@@ -44,24 +42,25 @@ public class TimeSheetServiceImpl implements TimeSheetService {
             throw new IllegalArgumentException("[TimeSheetCreateModel] cannot accept more than 4 entries by day.");
         }
 
-        var lastCheckedTime = timeSheetRepository.findFirstByCheckedDateTimeBetweenOrderByCreatedDateTimeDesc(
+        var lastTimeSheet = timeSheetRepository.findFirstByCheckedDateTimeBetweenOrderByCreatedDateTimeDesc(
                 DateHelper.firstHourOfDay(checkedDateTime), DateHelper.lastHourOfDay(checkedDateTime)
         );
 
-        if (lastCheckedTime != null && lastCheckedTime.getCheckedDateTime() != null) {
+        lastTimeSheet.ifPresent(timeSheet -> {
 
             long minutesInterval = Duration
-                    .between(lastCheckedTime.getCheckedDateTime(), checkedDateTime)
+                    .between(timeSheet.getCheckedDateTime(), checkedDateTime)
                     .toMinutes();
 
             if (minutesInterval < 0) {
                 throw new IllegalArgumentException("[TimeSheetCreateModel] cannot accept time before last one inserted.");
             }
 
-            if (TimeSheetEntryType.PAUSE.equals(lastCheckedTime.getType()) && minutesInterval < 60) {
+            if (TimeSheetEntryType.PAUSE.equals(timeSheet.getType()) && minutesInterval < 60) {
                 throw new IllegalArgumentException("[TimeSheetCreateModel] After PAUSE you have one hour of lunch.");
             }
-        }
+
+        });
 
         timesheet.setType(TimeSheetEntryType.fromValue(dayTimeSheetCount));
         timeSheetRepository.save(timesheet);

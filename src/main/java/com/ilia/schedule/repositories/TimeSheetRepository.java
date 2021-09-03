@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public interface TimeSheetRepository extends CrudRepository<TimeSheet, Long> {
 
@@ -15,5 +16,5 @@ public interface TimeSheetRepository extends CrudRepository<TimeSheet, Long> {
             @Param("endDatetime") LocalDateTime endDatetime
     );
 
-    TimeSheet findFirstByCheckedDateTimeBetweenOrderByCreatedDateTimeDesc(LocalDateTime startDatetime, LocalDateTime endDatetime);
+    Optional<TimeSheet> findFirstByCheckedDateTimeBetweenOrderByCreatedDateTimeDesc(LocalDateTime startDatetime, LocalDateTime endDatetime);
 }

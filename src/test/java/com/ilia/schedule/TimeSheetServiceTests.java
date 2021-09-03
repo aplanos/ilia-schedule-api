@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,7 +68,7 @@ public class TimeSheetServiceTests {
                     timesheet.setCheckedDateTime(pauseCheckPoint.getCheckedDateTime());
                     timesheet.setType(TimeSheetEntryType.PAUSE);
 
-                    return timesheet;
+                    return Optional.of(timesheet);
                 });
 
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
@@ -113,7 +114,7 @@ public class TimeSheetServiceTests {
                     timesheet.setCheckedDateTime(resumeCheckPoint.getCheckedDateTime());
                     timesheet.setType(TimeSheetEntryType.RESUME);
 
-                    return timesheet;
+                    return Optional.of(timesheet);
                 });
 
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
